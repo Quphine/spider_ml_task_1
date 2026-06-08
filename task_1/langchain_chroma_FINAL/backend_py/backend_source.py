@@ -7,8 +7,8 @@ import pickle
 
 app = Flask(__name__)
 CORS(app)
-
-client = genai.Client(api_key='AIzaSyBd6kcJdGpr-wFBlFm_XflPkpklSOgWeGU')
+#this api key is defunct
+client = genai.Client(api_key='AIzaSyBd6kcJdGpr-wFBlFm_XflPkpklSOgU') #key goes here
 
 persist_dir = './chroma_db'
 
