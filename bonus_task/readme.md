@@ -21,13 +21,14 @@ Combine outputs of Branch 1 and Branch 2 → 128 + 64 = 192
   
 Final Layer  
 Linear 192 → 64 → GELU  
-Latent embedding of size 64
+Latent embedding of size 64  
+> Note: I also tried with 32 and 16, but the results were almost similar with only very small increment in MSSSIM, but with 8 it drastically fell  
 
 The same was mirrored for the decoder architecture, starting from the 64 element latent embedding  
 This architecture utilizes the Gaussian Error Linear Unit (GELU) which encourages smoother gradients, better gradient flow and henceforth better final model accuracy (in this case better evaluation metric value) compared to ReLU  
 
 ### Evaluation Metric
-Initially, I tried using simple RMSE and RMSLE and it was clear the model had a very bad visual output as the loss functions did not capture spatial information or the intricate details of the input image. To overcome this disadvantage without the introduction of CNN layers, I implemented MSSSIM (Multi-Scale Structural Similarity Index Measurement), which manages to capture the spatial data.   
+Initially, I tried using simple RMSE and RMSLE and the model had an average output, loss functions did not capture spatial information or the intricate details of the input image. To overcome this disadvantage without the introduction of CNN layers, I tried to implement MSSSIM (Multi-Scale Structural Similarity Index Measurement), which manages to capture the spatial data.   
 
 Calculation of MSSSIM involves three layers [say `L1`, `L2`, `L3`] (in this case), with each layer outputting a single SSIM score
 An SSIM score between the actual and the generated image is calculated by obtaining three quatities:
@@ -40,6 +41,8 @@ We begin at `L1` 28x28 and obtain the first SSIM (`S1`)
 This is forwarded to the second layer `L2` by passing the previous image through a 2x2 kernel with a stride 2 (Avg Pool) and the second SSIM is calculated. The same process is repeated for the third.
 Finally, the MSSSIM is calculated by `[(S1)^W1]*[(S2)^W2]*[(S3)^W3]`
 I set weights to be equal 0.33, meaning that all details have equal priorities (i.e deviation from coarse details `[7*7]` has the same penalty as deviation from the finer ones `[28*28]`
+
+> Despite the fact that normal RMSE would work just fine for such a small 28*28 image dataset, I wanted to experiment on MSSSIM as it can be potentially scaled up for larger images without much loss in evaluation metric
 
 Loss: 1 - MSSSIM
 ### Hyperparameters
