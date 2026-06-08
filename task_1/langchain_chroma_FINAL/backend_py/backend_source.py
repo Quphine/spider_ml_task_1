@@ -51,8 +51,6 @@ def prompt(query: str):
     
     for chunk in response_stream:
         if chunk.text:
-            # Safely swap raw newline characters out for an explicit text token flag 
-            # so the SSE network stream layer never swallows them.
             safe_text = chunk.text.replace('\n', '[NEWLINE]')
             yield f'data: {safe_text}\n\n'
 
