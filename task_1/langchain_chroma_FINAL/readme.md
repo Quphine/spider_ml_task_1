@@ -29,5 +29,5 @@ The following is the pipeline I have implemented in this project:
 - This context is passed onto the prompt template and the response is generated.
 
 ### Frontend/Backend
--Frontend: Flutter (/frontend_flutter) in this repo
+-Frontend: Flutter (/frontend_flutter) in this repo  
 -Backend: Python (/backend_py) in this repo
