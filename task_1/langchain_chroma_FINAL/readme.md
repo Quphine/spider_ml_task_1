@@ -31,4 +31,3 @@ The following is the pipeline I have implemented in this project:
 ### Frontend/Backend
 -Frontend: Flutter (/frontend_flutter) in this repo
 -Backend: Python (/backend_py) in this repo
-- 
